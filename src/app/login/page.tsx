@@ -10,10 +10,19 @@ export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const [error, setError] = useState("");
+
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
-        if (email && password) {
+        const staticUserInfo = {
+            email: 'admin@example.com',
+            password: 'As12345',
+        }
+        if (email === staticUserInfo.email && password === staticUserInfo.password) {
             router.push("/languages");
+        }
+        else {
+            setError("Invalid email or password");
         }
     };
 
@@ -46,9 +55,8 @@ export default function LoginPage() {
                 <p className="text-sm text-gray-500 mt-4 text-center" style={{ 'cursor': 'pointer' }}>
                     Don`t have an account?{" "}
                     <i>ask teacher for account</i>
-
-
                 </p>
+                {error && <p className="text-sm text-red-500 mt-4 text-center">{error}</p>}
             </div>
         </div>
     );

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "../components/ui/Button";
 import { BookIcon } from "lucide-react";
+import Navbar from "../components/custom/Navbar";
 export default function LanguageSelectionPage() {
     const navigate = useRouter()
     const selectLanguage = (lang: string) => {
@@ -52,6 +53,7 @@ export default function LanguageSelectionPage() {
                         </Button>
                     </div>
                 </div>
+                <Navbar />
             </div>
         </div>
     )

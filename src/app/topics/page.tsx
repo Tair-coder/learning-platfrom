@@ -3,7 +3,7 @@ import React from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '../components/ui/Button'
 import { BookIcon } from '../components/ui/BookIcon'
-import { Download } from 'lucide-react'
+import { ArrowBigLeft, Download } from 'lucide-react'
 export default function TopicSelectionPage() {
     const navigate = useRouter()
     const selectTopic = (topicId: string) => {
@@ -12,6 +12,8 @@ export default function TopicSelectionPage() {
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4 font-sans">
             <div className="w-full max-w-md bg-white rounded-[40px] border-[3px] border-black shadow-2xl flex flex-col p-8">
+                <ArrowBigLeft className="cursor-pointer" onClick={() => navigate.push('/levels')} />
+
                 <div className="flex col items-center mb-8">
                     <BookIcon className="w-24 h-24" />
                     <h2 className="text-center text-xl font-bold">A1</h2>

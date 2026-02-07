@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '../../components/ui/Button'
 import { BookIcon } from '../../components/ui/BookIcon'
+import { ArrowBigLeft } from 'lucide-react';
 const QUESTIONS = [
     {
         id: 1,
@@ -44,10 +45,11 @@ export default function QuizPage() {
     if (showResult) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4 font-sans">
+
                 <div className="w-full max-w-md bg-white rounded-[40px] border-[3px] border-black shadow-2xl flex flex-col p-8">
                     <BookIcon className="w-24 h-24" />
                     <h2 className="text-2xl font-bold">Quiz Complete!</h2>
-                    <p className="text-xl">
+                    <p className="text-xl mb-4">
                         Score: {score} / {QUESTIONS.length}
                     </p>
                     <Button onClick={() => navigate.push('/topics')} fullWidth>
@@ -60,7 +62,7 @@ export default function QuizPage() {
     const progress = ((currentQuestion + 1) / QUESTIONS.length) * 100
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4 font-sans">
-            <div className="flex-1 flex flex-col pt-4 space-y-8">
+            <div className="w-full max-w-md bg-white rounded-[40px] border-[3px] border-black shadow-2xl flex flex-col p-8">
                 <div className="flex items-center space-x-4">
                     <div className="w-12 h-12 border-2 border-black rounded-lg flex items-center justify-center">
                         <BookIcon className="w-8 h-8 border-none p-0" />

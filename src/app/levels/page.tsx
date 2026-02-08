@@ -3,11 +3,24 @@
 import React from 'react'
 import { Button } from '../components/ui/Button'
 import { BookIcon } from '../components/ui/BookIcon'
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowBigLeft } from 'lucide-react';
 
+// TODO: make levels dynamic, fetch from backend
+const AVAILABLE_LEVELS = {
+    'kazakh': ['B1'],
+    'english': ['A1', 'A2', 'B1']
+}
+
+/**
+ * 
+ * @returns page for selecting level of learning, placed after language selection
+ * 
+ */
 export default function LevelSelectionPage() {
     const navigate = useRouter()
+    const searchParams = useSearchParams()
+    const lang = searchParams.get('lang') || 'english'
     const selectLevel = (level: string) => {
         navigate.push(`/topics?topicId=${level}`)
     }
@@ -24,21 +37,17 @@ export default function LevelSelectionPage() {
 
 
                 <div className="w-full space-y-4 pt-4">
-                    <Button
-                        fullWidth
-                        onClick={() => selectLevel('A1')}
-                        className="uppercase"
-                    >
-                        A1
-                    </Button>
+                    {AVAILABLE_LEVELS[lang].map(level => (
+                        <Button
+                            key={level}
+                            fullWidth
+                            onClick={() => selectLevel(level)}
+                            className="uppercase"
+                        >
+                            {level}
+                        </Button>
+                    ))}
 
-                    <Button
-                        fullWidth
-                        onClick={() => selectLevel('A2')}
-                        className="uppercase"
-                    >
-                        A2
-                    </Button>
                 </div>
             </div>
         </div>

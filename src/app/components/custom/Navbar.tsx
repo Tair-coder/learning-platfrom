@@ -3,7 +3,6 @@
 import { Home, Settings, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-
 /**
  * 
  * @returns component for navigation between pages, placed at the bottom of the screen

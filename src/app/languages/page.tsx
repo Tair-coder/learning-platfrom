@@ -9,7 +9,7 @@ export default function LanguageSelectionPage() {
     const navigate = useRouter()
     const selectLanguage = (lang: string) => {
         // In a real app, save to context/store
-        navigate.push('/levels')
+        navigate.push('/levels?lang=' + lang)
     }
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4 font-sans">

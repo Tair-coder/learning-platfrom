@@ -5,9 +5,9 @@ import { Button } from '../components/ui/Button'
 import { BookIcon } from '../components/ui/BookIcon'
 import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowBigLeft } from 'lucide-react';
-
+type Language = 'kazakh' | 'english'
 // TODO: make levels dynamic, fetch from backend
-const AVAILABLE_LEVELS = {
+const AVAILABLE_LEVELS: Record<Language, string[]> = {
     'kazakh': ['B1'],
     'english': ['A1', 'A2', 'B1']
 }
@@ -20,7 +20,11 @@ const AVAILABLE_LEVELS = {
 export default function LevelSelectionPage() {
     const navigate = useRouter()
     const searchParams = useSearchParams()
-    const lang = searchParams.get('lang') || 'english'
+    const param = searchParams.get('lang')
+    const lang: Language =
+        param === 'kazakh' || param === 'english'
+            ? param
+            : 'kazakh'
     const selectLevel = (level: string) => {
         navigate.push(`/topics?topicId=${level}`)
     }

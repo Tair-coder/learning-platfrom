@@ -1,39 +1,27 @@
 'use client';
 import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '../../components/ui/Button'
 import { BookIcon } from '../../components/ui/BookIcon'
-import { ArrowBigLeft } from 'lucide-react';
-const QUESTIONS = [
-    {
-        id: 1,
-        question: 'What is the correct way to start a CV?',
-        answers: ['Personal Information', 'My Hobbies', 'Favorite Foods'],
-        correct: 0,
-        lang: 'en'
-    },
-    {
-        id: 2,
-        question: 'Which section lists your work history?',
-        answers: ['Education', 'Experience', 'Skills'],
-        correct: 1,
-        lang: 'en'
-    },
-    {
-        id: 3,
-        question: 'Should you include a photo in your CV?',
-        answers: ['Always', 'Never', 'Depends on country'],
-        correct: 2,
-        lang: 'en'
-    },
-]
+import { findTopic, normalizeLanguage, normalizeLevel } from '../../lib/catalog'
 export default function QuizPage() {
     const navigate = useRouter()
+    const params = useParams<{ topicId: string }>()
+    const searchParams = useSearchParams()
+    const topicId = params?.topicId
+    const lang = normalizeLanguage(searchParams.get('lang'))
+    const level = normalizeLevel(searchParams.get('level'), lang)
+
+    const { topic, effectiveLevel } = topicId
+        ? findTopic(lang, level, topicId)
+        : { topic: undefined, effectiveLevel: level }
+
+    const QUESTIONS = topic?.quiz ?? []
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [score, setScore] = useState(0)
     const [showResult, setShowResult] = useState(false)
     const handleAnswer = (index: number) => {
-        if (index === QUESTIONS[currentQuestion].correct) {
+        if (index === QUESTIONS[currentQuestion].correctIndex) {
             setScore(score + 1)
         }
         if (currentQuestion < QUESTIONS.length - 1) {
@@ -42,18 +30,38 @@ export default function QuizPage() {
             setShowResult(true)
         }
     }
+
+    if (!topicId || !topic || QUESTIONS.length === 0) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-background p-4 font-sans">
+                <div className="w-full max-w-md bg-card text-foreground rounded-[40px] border-[3px] border-foreground shadow-2xl flex flex-col p-8">
+                    <BookIcon className="w-24 h-24" />
+                    <h2 className="text-xl font-bold">Quiz not available</h2>
+                    <p className="text-sm text-muted-foreground mt-2">
+                        This topic has no quiz yet.
+                    </p>
+                    <div className="pt-6">
+                        <Button onClick={() => navigate.push('/topics')} fullWidth>
+                            Back to Topics
+                        </Button>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     if (showResult) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4 font-sans">
+            <div className="min-h-screen flex items-center justify-center bg-background p-4 font-sans">
 
-                <div className="w-full max-w-md bg-white rounded-[40px] border-[3px] border-black shadow-2xl flex flex-col p-8">
+                <div className="w-full max-w-md bg-card text-foreground rounded-[40px] border-[3px] border-foreground shadow-2xl flex flex-col p-8">
                     <BookIcon className="w-24 h-24" />
                     <h2 className="text-2xl font-bold">Quiz Complete!</h2>
                     <p className="text-xl mb-4">
                         Score: {score} / {QUESTIONS.length}
                     </p>
-                    <Button onClick={() => navigate.push('/topics')} fullWidth>
-                        Back to Topics
+                    <Button onClick={() => navigate.push(`/course/${topicId}?lang=${lang}&level=${effectiveLevel}`)} fullWidth>
+                        Back
                     </Button>
                 </div>
             </div>
@@ -61,13 +69,13 @@ export default function QuizPage() {
     }
     const progress = ((currentQuestion + 1) / QUESTIONS.length) * 100
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4 font-sans">
-            <div className="w-full max-w-md bg-white rounded-[40px] border-[3px] border-black shadow-2xl flex flex-col p-8">
+        <div className="min-h-screen flex items-center justify-center bg-background p-4 font-sans">
+            <div className="w-full max-w-md bg-card text-foreground rounded-[40px] border-[3px] border-foreground shadow-2xl flex flex-col p-8">
                 <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 border-2 border-black rounded-lg flex items-center justify-center">
+                    <div className="w-12 h-12 border-2 border-foreground rounded-lg flex items-center justify-center">
                         <BookIcon className="w-8 h-8 border-none p-0" />
                     </div>
-                    <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden border border-black/10">
+                    <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden border border-border">
                         <div
                             className="h-full bg-green-500 transition-all duration-300"
                             style={{
@@ -78,7 +86,7 @@ export default function QuizPage() {
                 </div>
 
                 <div className="space-y-4">
-                    <h3 className="text-sm uppercase tracking-widest text-gray-500">
+                    <h3 className="text-sm uppercase tracking-widest text-muted-foreground">
                         Question {currentQuestion + 1}
                     </h3>
                     <p className="text-xl font-medium">

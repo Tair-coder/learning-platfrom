@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "../components/ui/Button";
 import { BookIcon } from "lucide-react";
@@ -12,8 +12,8 @@ export default function LanguageSelectionPage() {
         navigate.push('/levels?lang=' + lang)
     }
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4 font-sans">
-            <div className="w-full max-w-md bg-white rounded-[40px] border-[3px] border-black shadow-2xl flex flex-col p-8">
+        <div className="min-h-screen flex items-center justify-center bg-background p-4 font-sans">
+            <div className="w-full max-w-md bg-card text-foreground rounded-[40px] border-[3px] border-foreground shadow-2xl flex flex-col p-8">
                 <div className="flex col items-center mb-8">
                     <BookIcon className="w-24 h-24" />
                     <h2 className="text-center text-lg font-medium max-w-[200px]">
@@ -40,14 +40,14 @@ export default function LanguageSelectionPage() {
                     </Button>
 
                     <div className="pt-4 w-full">
-                        <p className="text-xs text-center uppercase tracking-widest text-gray-500 mb-4">
+                        <p className="text-xs text-center uppercase tracking-widest text-muted-foreground mb-4">
                             Extra Languages
                         </p>
                         <Button
                             fullWidth
                             variant="secondary"
                             onClick={() => selectLanguage('uyghur')}
-                            className="uppercase border-2 border-gray-200"
+                            className="uppercase border-2 border-foreground"
                         >
                             Uyghur
                         </Button>

@@ -23,12 +23,12 @@ export default function LevelSelectionContent() {
             ? param
             : 'kazakh'
     const selectLevel = (level: string) => {
-        navigate.push(`/topics?topicId=${level}`)
+        navigate.push(`/topics?lang=${lang}&level=${level}`)
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4 font-sans">
-            <div className="w-full max-w-md bg-white rounded-[40px] border-[3px] border-black shadow-2xl flex flex-col p-8">
+        <div className="min-h-screen flex items-center justify-center bg-background p-4 font-sans">
+            <div className="w-full max-w-md bg-card text-foreground rounded-[40px] border-[3px] border-foreground shadow-2xl flex flex-col p-8">
                 <ArrowBigLeft className="cursor-pointer" onClick={() => navigate.push("/languages")} />
                 <div className='flex justify-center items-center'>
                     <BookIcon className="w-24 h-24" />

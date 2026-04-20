@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 export default function Navbar() {
     const navigate = useRouter()
     return (
-        <nav className="w-full h-16 bg-white mt-4  flex items-center justify-center bg-light p-4 gap-10 border-2 border-black rounded-[40px]">
+        <nav className="w-full h-16 mt-4 flex items-center justify-center p-4 gap-10 border-2 border-foreground rounded-[40px] bg-card text-foreground">
             <button onClick={() => navigate.push('/languages')} className="text-2xl cursor-pointer"><Home /></button>
             <button onClick={() => navigate.push('/settings')} className="text-2xl cursor-pointer"><Settings /></button>
             <button onClick={() => navigate.push('/profile')} className="text-2xl cursor-pointer"><User /></button>

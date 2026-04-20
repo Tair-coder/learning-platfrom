@@ -19,6 +19,12 @@ export default function LoginPage() {
             password: 'As12345',
         }
         if (email === staticUserInfo.email && password === staticUserInfo.password) {
+            try {
+                localStorage.setItem('lp.session', '1')
+                localStorage.setItem('lp.user', JSON.stringify({ email }))
+            } catch {
+                // ignore
+            }
             router.push("/languages");
         }
         else {
@@ -27,8 +33,8 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4 font-sans">
-            <div className="w-full max-w-md bg-white rounded-[40px] border-[3px] border-black shadow-2xl flex flex-col p-8">
+        <div className="min-h-screen flex items-center justify-center bg-background p-4 font-sans">
+            <div className="w-full max-w-md bg-card text-foreground rounded-[40px] border-[3px] border-foreground shadow-2xl flex flex-col p-8">
                 <h1 className="text-5xl font-handwriting font-bold text-center mb-8">
                     Login
                 </h1>
@@ -52,7 +58,7 @@ export default function LoginPage() {
                     </Button>
                 </form>
 
-                <p className="text-sm text-gray-500 mt-4 text-center" style={{ 'cursor': 'pointer' }}>
+                <p className="text-sm text-muted-foreground mt-4 text-center" style={{ 'cursor': 'pointer' }}>
                     Don`t have an account?{" "}
                     <i>ask teacher for account</i>
                 </p>
